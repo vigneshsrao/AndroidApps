@@ -16,10 +16,9 @@ public class ExpenseViewModal extends AndroidViewModel {
     public ExpenseViewModal (Application application) {
         super(application);
         mRepository = new ExpenseRepository(application);
-        mAllExpenses = mRepository.getAllExpenses();
     }
 
-    LiveData<List<Expense>> getAllExpenses() { return mAllExpenses; }
+    LiveData<List<Expense>> getAllExpenses() { return mRepository.getAllExpenses(); }
 
     public void insert(Expense expense) { mRepository.insert(expense); }
 }

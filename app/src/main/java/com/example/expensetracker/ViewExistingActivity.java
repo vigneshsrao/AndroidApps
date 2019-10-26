@@ -20,19 +20,14 @@ public class ViewExistingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_existing);
 
+
+        mExpenseViewModel = ViewModelProviders.of(this).get(ExpenseViewModal.class);
+
         RecyclerView recyclerView = findViewById(R.id.dispRecyclerView);
-        final ExpenseListAdapter adapter = new ExpenseListAdapter(this);
+        final ExpenseListAdapter adapter = new ExpenseListAdapter(mExpenseViewModel.getAllExpenses().getValue());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        mExpenseViewModel = ViewModelProviders.of(this).get(ExpenseViewModal.class);
-        mExpenseViewModel.getAllExpenses().observe(this, new Observer<List<Expense>>() {
-            @Override
-            public void onChanged(@Nullable final List<Expense> words) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setWords(words);
-            }
-        });
     }
 }

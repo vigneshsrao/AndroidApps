@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-
 public class ExpenseRepository {
     private ExpenseDao mExpenseDao;
     private LiveData<List<Expense>> mAllExpenses;
@@ -17,10 +15,18 @@ public class ExpenseRepository {
     ExpenseRepository(Application application) {
         ExpenseRoomDatabase db = ExpenseRoomDatabase.getDatabase(application);
         mExpenseDao = db.expenseDao();
-        mAllExpenses = mExpenseDao.getAllExpenses();
     }
 
     LiveData<List<Expense>> getAllExpenses() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Log.i("MUAHAHAHAHAHAH", mExpenseDao.getAllExpenses().getValue().toString());
+                return null;
+            }
+        }.execute();
+//        Log.i(ExpenseRepository.class.getSimpleName(), mAllExpenses.getValue().toString());
         return mAllExpenses;
     }
 
